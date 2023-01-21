@@ -4,9 +4,18 @@ on: [push]
 
 jobs:
   test:
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: bad_inflector_demo_test
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test      
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/bad_inflector_demo_test
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
